@@ -1,5 +1,11 @@
+// used errors
+const errors = ["missing ';'","expected '=' in int deceleration"];
 // used regexs
 const strRegex = /^("[^"]+"|'[^']+')$/;
+// used functions
+function checkDecleration(words){
+  if(words[2] != "=") throw new SyntaxError(atline(errors[1], i));
+}
 Map.prototype.find = function(fn) {
   return Array.from(this).find(fn)
 }
@@ -12,26 +18,31 @@ function required(a, b, c, i) {
 function run(code = document.getElementById("input").value, vars = new Map([
     ["log",{type:"native", code: console.log}]
     ])) {
-        const errors = ["missing ';'","expected '=' in int deceleration"];
   let i = 0;
   code.split("\n").forEach((line,index) =>{
     i++
     if(!line.endsWith(";")) throw SyntaxError(atline(errors[0],i));
     const words = line.split(" "),
           keyword = words[0];
-    let isDecleration = true;
+    let usesKeyword = true;
     switch(keyword){
       // declaration keywords
       case "int":
-        if(words[2] != "=") throw new SyntaxError(atline(errors[1], i));
+        checkDecleration(words);
         let value = Number(words[3].slice(0,-1));
         if(isNaN(value) || value % 1) throw new TypeError(atline("value must be an integer",i));
         vars.set(words[1],{type:"int",value});
         break;
-        default:
-          isDecleration = false;
+      case "float":
+        checkDecleration(words);
+        let value = Number(words[3].slice(0,-1));
+        if(isNaN(value) || value % 0.0000001) throw new TypeError(atline("value must be a float",i));
+        vars.set(words[1],{type:"float",value});
+        break;
+      default:
+          usesKeyword = false;
     }
-    if(isDecleration) return;
+    if(usesKeyword) return;
     const variable = vars.find(x => new RegExp(`${x[0]}(?:\(.+\)|);$`).test(line));
     if(!variable) throw new ReferenceError(atline(`${line.split(/\W/)[0]} is not defined`,i));
     let parameters = [];
@@ -44,7 +55,7 @@ function run(code = document.getElementById("input").value, vars = new Map([
     });
     switch(variable[1].type){
       case "native":
-        if(!parameters.length) throw new Error(required(1,0,1));
+        if(!parameters.length) throw new Error(required(1,0,1,i));
         variable[1].code(...parameters);
       case "function":
     }
