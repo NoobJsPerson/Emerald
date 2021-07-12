@@ -1,5 +1,5 @@
 // used errors
-const errors = ["missing ';'","expected '=' in int deceleration"];
+const errors = ["missing ';'","expected '=' in deceleration"];
 // used regexs
 const strRegex = /^("[^"]+"|'[^']+')$/;
 // used functions
@@ -37,7 +37,7 @@ function run(code = document.getElementById("input").value, vars = new Map([
       case "float": {
         checkDecleration(words);
         let value = Number(words[3].slice(0,-1));
-        if(isNaN(value) || value % 0.0000001) throw new TypeError(atline("value must be a float",i));
+        if(isNaN(value) || value * 10000000 % 1) throw new TypeError(atline("value must be a float",i));
         vars.set(words[1],{type:"float",value});
         break;
       }
@@ -52,7 +52,7 @@ function run(code = document.getElementById("input").value, vars = new Map([
       if(!x) return;
       if(strRegex.test(x)) return parameters.push(x.match(strRegex)[1]);
       if(Number(x)) return parameters.push(x);
-      if(vars.get(x)) parameters.push(vars.get(x));
+      if(vars.get(x)) parameters.push(vars.get(x).value);
       else throw new ReferenceError(atline (`${x} is not defined`,i));
     });
     switch(variable[1].type){
