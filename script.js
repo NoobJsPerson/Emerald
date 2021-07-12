@@ -27,18 +27,20 @@ function run(code = document.getElementById("input").value, vars = new Map([
     let usesKeyword = true;
     switch(keyword){
       // declaration keywords
-      case "int":
+      case "int": {
         checkDecleration(words);
         let value = Number(words[3].slice(0,-1));
         if(isNaN(value) || value % 1) throw new TypeError(atline("value must be an integer",i));
         vars.set(words[1],{type:"int",value});
         break;
-      case "float":
+      }
+      case "float": {
         checkDecleration(words);
         let value = Number(words[3].slice(0,-1));
         if(isNaN(value) || value % 0.0000001) throw new TypeError(atline("value must be a float",i));
         vars.set(words[1],{type:"float",value});
         break;
+      }
       default:
           usesKeyword = false;
     }
