@@ -12,12 +12,12 @@ Map.prototype.find = function(fn) {
 function atline(str,i) {
   return `${str} at line ${i}`;
 }
-function required(a, b, c, i) {
-  return atline(`this function requires ${c ? "atleast ":""}${a} argument${a > 1 ? 's' :''} and got ${b}`,i);
+function required(a, b, i) {
+  return atline(`this function requires ${a} argument${a > 1 ? 's' :''} and got ${b}`,i);
 }
 function run(code = document.getElementById("input").value, vars = new Map([
     ["log",{type:"native", code: console.log}],
-    ["prompt"]
+    ["prompt",{type:"native"}]
     ])) {
   let i = 0;
   code.split("\n").forEach((line,index) =>{
@@ -58,7 +58,7 @@ function run(code = document.getElementById("input").value, vars = new Map([
     });
     switch(variable[1].type){
       case "native":
-        if(!parameters.length) throw new Error(required(1,0,1,i));
+        if(!parameters.length) throw new Error(required(1,0,i));
         variable[1].code(...parameters);
       case "function":
     }
