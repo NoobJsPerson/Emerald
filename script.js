@@ -16,8 +16,8 @@ function required(a, b, i) {
   return atline(`this function requires ${a} argument${a > 1 ? 's' :''} and got ${b}`,i);
 }
 function run(code = document.getElementById("input").value, vars = new Map([
-    ["log",{type:"native", code: console.log}],
-    ["prompt",{type:"native"}]
+    ["log",{type:"native", code: console.log, requiredArgs:1}],
+    ["prompt",{type:"native", code:prompt}]
     ])) {
   let i = 0;
   code.split(";").forEach((line,index) =>{
