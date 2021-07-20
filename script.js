@@ -20,9 +20,9 @@ function run(code = document.getElementById("input").value, vars = new Map([
     ["prompt",{type:"native"}]
     ])) {
   let i = 0;
-  code.split("\n").forEach((line,index) =>{
-    i++
-    if(!line.endsWith(";")) throw SyntaxError(atline(errors[0],i));
+  code.split(";").forEach((line,index) =>{
+    i++;
+    if(line.split(" ")[4]) throw SyntaxError(atline(errors[0],i));
     const words = line.split(" "),
           keyword = words[0];
     let usesKeyword = true;
