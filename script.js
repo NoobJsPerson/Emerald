@@ -7,16 +7,17 @@ function checkDecleration(words){
   if(words[2] != "=") throw new SyntaxError(atline(errors[1], i));
 }
 Map.prototype.find = function(fn) {
-  return Array.from(this).find(fn)
-}
+  return Array.from(this).find(fn);
+};
 function atline(str,i) {
   return `${str} at line ${i}`;
 }
 function required(a, b, c, i) {
-  return atline(`this function requires ${c ? "atleast ":""}${a} argument${a > 1 ? 's' :''} and got ${b}`,i)
+  return atline(`this function requires ${c ? "atleast ":""}${a} argument${a > 1 ? 's' :''} and got ${b}`,i);
 }
 function run(code = document.getElementById("input").value, vars = new Map([
-    ["log",{type:"native", code: console.log}]
+    ["log",{type:"native", code: console.log}],
+    ["prompt"]
     ])) {
   let i = 0;
   code.split("\n").forEach((line,index) =>{
