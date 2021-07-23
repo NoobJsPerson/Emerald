@@ -1,3 +1,6 @@
+// imports
+import builtins from './builtins.js';
+console.log(inputEl.value)
 // used errors
 const errors = ["missing ';'","expected '=' in deceleration"];
 // used regexs
@@ -16,12 +19,9 @@ function atline(str,i) {
   return `${str} at line ${i}`;
 }
 function required(a, b, c, i) {
-  return atline(`the ${c} function requires ${a} argument${a > 1 ? 's' :''} and got ${b}`,i);
+  return atline(`the ${c} function requires ${a} argument${a > 1 ? 's' :''} and got ${b} instead`,i);
 }
-function run(code = document.getElementById("input").value, vars = new Map([
-    ["log",{type:"native", code: console.log, requiredArgs:1}],
-    ["prompt",{type:"native", code:prompt}]
-    ])) {
+function run(code = document.getElementById("code").value, vars = builtins) {
   let i = 0;
   code.split(";").forEach((line,index) =>{
     if(!line) return;
@@ -69,3 +69,4 @@ function run(code = document.getElementById("input").value, vars = new Map([
   });
   console.log("[Program Ended]");
 }
+document.getElementById("run").addEventListener("click",() => run.call(this));
